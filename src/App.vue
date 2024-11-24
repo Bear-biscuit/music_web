@@ -984,7 +984,7 @@ const fixImgUrl = (arr) => {
 // 格式化搜索结果
 const formattedSearchResults = computed(() => {
   if (!searchResults.value) return [];
-  if (searchResults.value.length === 8) {
+  if (searchResults.value.length === 20) {
     return searchResults.value;
   }
   // 根据不同音源格式化数据
