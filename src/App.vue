@@ -1023,8 +1023,30 @@ const playSong = async (song) => {
     const selectedQualityValue = selectedQuality.value;
     const response = await fetch(`${music_api}/API/${song.muLink}=${encodeURIComponent(song.muName)}&n=${encodeURIComponent(song.muId)}&q=${encodeURIComponent(selectedQualityValue)}&mid=${song.mid}`);
     const data = await response.json();
-    const lyrics = await fetch(`${music_lyric_api}/get_lyrics?mid=${encodeURIComponent(song.mid)}`);
-    const lyricsData = await lyrics.json();
+    let lyricsData = ''
+    try {
+      const response = await fetch(`${music_lyric_api}/get_lyrics?mid=${encodeURIComponent(song.mid)}`);
+      if (response.ok) {
+        lyricsData = await response.json();
+      } else {
+        lyricsData = {
+          'lyric': [{
+            "name": "请求歌词数据失败",
+            "time": "00:00.000"
+          }]
+        }
+        console.error('查询失败:', response.status);
+      }
+    } catch (error) {
+      lyricsData = {
+        'lyric': [{
+          "name": "请求歌词数据失败",
+          "time": "00:00.000"
+        }]
+      }
+      console.error('请求失败:', error);
+    }
+    
     if (data.data?.url) {
       song.lyrics = lyricsData?.lyric || [{
         "name": "暂无歌词",
