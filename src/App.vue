@@ -1011,7 +1011,7 @@ const formattedSearchResults = computed(() => {
       muName: item.muName,
       muId: item.muId,
       muLink: item.muLink,
-      mid: 'kong',
+      mid: item.id,
       uname: '网易云',
     }));
   }
@@ -1090,7 +1090,7 @@ const playSong = async (song) => {
 };
 
 const addToPlaylist = (song) => {
-  if (playlist.value.some(item => item.id === song.id)) {
+  if (playlist.value.some(item => item.mid === song.mid)) {
     showToastMessage('该歌曲已在播放列表中');
     return;
   }
